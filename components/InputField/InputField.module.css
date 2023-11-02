@@ -1,0 +1,18 @@
+.inputFieldContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.inputFieldContainer > label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.inputFieldContainer > input {
+  font-size: 0.95rem;
+  padding: 10px 8px;
+  border-radius: var(--border-radius);
+  border: 1px solid #aaa;
+}
