@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import styles from './page.module.css';
-import InputField from '@/components/InputField/InputField';
+import InputField from '@/src/components/InputField/InputField';
 
 const FormFields = {
   Postcode: 'postcode',
