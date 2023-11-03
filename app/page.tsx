@@ -4,17 +4,18 @@ import { FormEvent, useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import styles from './page.module.css';
 import InputField from '@/src/components/InputField/InputField';
+import { FormStateType } from '@/src/types';
+import { FormFields } from '@/src/constants/form';
 
-const FormFields = {
-  Postcode: 'postcode',
-  Suburb: 'suburb',
-  State: 'state',
+const initialFormStateValue = {
+  value: '',
+  error: false,
+  errorMsg: '',
 };
-
 const initialFormState = {
-  [FormFields.Postcode]: '',
-  [FormFields.Suburb]: '',
-  [FormFields.State]: '',
+  [FormFields.Postcode]: initialFormStateValue,
+  [FormFields.Suburb]: initialFormStateValue,
+  [FormFields.State]: initialFormStateValue,
 };
 
 const query = gql`
@@ -28,26 +29,55 @@ const query = gql`
 `;
 
 export default function Home() {
-  const [loadData, { loading, data }] = useLazyQuery(query);
-
   const [formState, setFormState] = useState(initialFormState);
 
-  const handleFieldChange = (field: string, value: string) => {
+  const [loadData, { loading, data }] = useLazyQuery(query, {
+    onCompleted: () => {
+      setFormState(initialFormState);
+    },
+  });
+
+  const handleFieldChange = (field: string, values: FormStateType) => {
     setFormState((prevValue) => ({
       ...prevValue,
-      [field]: value,
+      [field]: {
+        ...prevValue[field],
+        error: false,
+        errorMsg: '',
+        ...values,
+      },
     }));
+  };
+
+  const handleValidation = () => {
+    let isValid = true;
+    const value = { error: true, errorMsg: 'This field is required' };
+
+    if (!formState[FormFields.Postcode].value) {
+      handleFieldChange(FormFields.Postcode, value);
+      isValid = false;
+    }
+    if (!formState[FormFields.Suburb].value) {
+      handleFieldChange(FormFields.Suburb, value);
+      isValid = false;
+    }
+    if (!formState[FormFields.State].value) {
+      handleFieldChange(FormFields.State, value);
+      isValid = false;
+    }
+
+    return isValid;
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const isValid = handleValidation();
+    if (!isValid) return;
+
     // TODO: hit API
     console.log(formState);
     loadData();
-
-    // If API returns success
-    setFormState(initialFormState);
   };
 
   return (
@@ -57,20 +87,26 @@ export default function Home() {
         <InputField
           name={FormFields.Postcode}
           label='Postcode'
-          value={formState[FormFields.Postcode]}
-          onChange={(val) => handleFieldChange(FormFields.Postcode, val)}
+          error={formState[FormFields.Postcode].error}
+          errorMsg={formState[FormFields.Postcode].errorMsg}
+          value={formState[FormFields.Postcode].value}
+          onChange={(value) => handleFieldChange(FormFields.Postcode, { value })}
         />
         <InputField
           name={FormFields.Suburb}
           label='Suburb'
-          value={formState[FormFields.Suburb]}
-          onChange={(val) => handleFieldChange(FormFields.Suburb, val)}
+          error={formState[FormFields.Suburb].error}
+          errorMsg={formState[FormFields.Suburb].errorMsg}
+          value={formState[FormFields.Suburb].value}
+          onChange={(value) => handleFieldChange(FormFields.Suburb, { value })}
         />
         <InputField
           name={FormFields.State}
           label='State'
-          value={formState[FormFields.State]}
-          onChange={(val) => handleFieldChange(FormFields.State, val)}
+          error={formState[FormFields.State].error}
+          errorMsg={formState[FormFields.State].errorMsg}
+          value={formState[FormFields.State].value}
+          onChange={(value) => handleFieldChange(FormFields.State, { value })}
         />
         <button className='btn-primary' type='submit' disabled={loading}>
           {loading ? 'Loading...' : 'Submit'}

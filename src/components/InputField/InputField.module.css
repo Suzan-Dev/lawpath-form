@@ -5,7 +5,7 @@
 }
 
 .inputFieldContainer > label {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -15,4 +15,10 @@
   padding: 10px 8px;
   border-radius: var(--border-radius);
   border: 1px solid #aaa;
+}
+
+.errorMsg {
+  font-size: 0.85rem;
+  margin-top: 4px;
+  color: var(--error-color);
 }

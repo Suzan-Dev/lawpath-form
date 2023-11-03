@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import { ApolloWrapper } from '@/src/lib/apollo-wrapper';
+import { ApolloWrapper } from '@/src/libs/apollo-wrapper';
 import './globals.css';
 
 const poppins = Poppins({
