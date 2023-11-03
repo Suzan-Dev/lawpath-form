@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
 import styles from './page.module.css';
 import InputField from '@/src/components/InputField/InputField';
 
@@ -16,7 +17,19 @@ const initialFormState = {
   [FormFields.State]: '',
 };
 
+const query = gql`
+  query {
+    users {
+      id
+      name
+      email
+    }
+  }
+`;
+
 export default function Home() {
+  const [loadData, { loading, data }] = useLazyQuery(query);
+
   const [formState, setFormState] = useState(initialFormState);
 
   const handleFieldChange = (field: string, value: string) => {
@@ -31,6 +44,7 @@ export default function Home() {
 
     // TODO: hit API
     console.log(formState);
+    loadData();
 
     // If API returns success
     setFormState(initialFormState);
@@ -58,8 +72,8 @@ export default function Home() {
           value={formState[FormFields.State]}
           onChange={(val) => handleFieldChange(FormFields.State, val)}
         />
-        <button className='btn-primary' type='submit'>
-          Submit
+        <button className='btn-primary' type='submit' disabled={loading}>
+          {loading ? 'Loading...' : 'Submit'}
         </button>
       </form>
     </main>
