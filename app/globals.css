@@ -2,6 +2,7 @@
   --border-radius: 5px;
   --primary-color: #0075bf;
   --primary-color-hover: #0094f0;
+  --disabled-color: #aaa;
 }
 
 * {
@@ -28,6 +29,13 @@ button {
 button:focus,
 input:focus {
   outline: 3px solid rgba(66, 153, 225, 0.6);
+}
+
+button:disabled,
+button:disabled:hover {
+  cursor: not-allowed;
+  background-color: var(--disabled-color);
+  border: 1px solid var(--disabled-color);
 }
 
 /* Utility Classes */
