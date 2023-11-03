@@ -1,0 +1,4 @@
+.alertContainer {
+  padding: 15px;
+  border-radius: var(--border-radius);
+}

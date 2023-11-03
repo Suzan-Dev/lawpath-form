@@ -2,10 +2,11 @@
 
 import { FormEvent, useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
-import styles from './page.module.css';
 import InputField from '@/src/components/InputField/InputField';
+import Alert from '@/src/components/Alert/Alert';
 import { FormStateType } from '@/src/types';
 import { FormFields } from '@/src/constants/form';
+import styles from './page.module.css';
 
 const initialFormStateValue = {
   value: '',
@@ -30,10 +31,12 @@ const query = gql`
 
 export default function Home() {
   const [formState, setFormState] = useState(initialFormState);
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   const [loadData, { loading, data }] = useLazyQuery(query, {
     onCompleted: () => {
       setFormState(initialFormState);
+      setIsSubmitSuccess(true);
     },
   });
 
@@ -83,6 +86,11 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h2 className={styles.header}>Lawpath Form</h2>
+      {isSubmitSuccess && (
+        <div className='mb-15'>
+          <Alert variant='success'>The postcode, state and suburb input are valid</Alert>
+        </div>
+      )}
       <form className={styles.form} onSubmit={handleSubmit}>
         <InputField
           name={FormFields.Postcode}
@@ -93,14 +101,6 @@ export default function Home() {
           onChange={(value) => handleFieldChange(FormFields.Postcode, { value })}
         />
         <InputField
-          name={FormFields.Suburb}
-          label='Suburb'
-          error={formState[FormFields.Suburb].error}
-          errorMsg={formState[FormFields.Suburb].errorMsg}
-          value={formState[FormFields.Suburb].value}
-          onChange={(value) => handleFieldChange(FormFields.Suburb, { value })}
-        />
-        <InputField
           name={FormFields.State}
           label='State'
           error={formState[FormFields.State].error}
@@ -108,8 +108,16 @@ export default function Home() {
           value={formState[FormFields.State].value}
           onChange={(value) => handleFieldChange(FormFields.State, { value })}
         />
+        <InputField
+          name={FormFields.Suburb}
+          label='Suburb'
+          error={formState[FormFields.Suburb].error}
+          errorMsg={formState[FormFields.Suburb].errorMsg}
+          value={formState[FormFields.Suburb].value}
+          onChange={(value) => handleFieldChange(FormFields.Suburb, { value })}
+        />
         <button className='btn-primary' type='submit' disabled={loading}>
-          {loading ? 'Loading...' : 'Submit'}
+          {loading ? 'Loading...' : 'Validate'}
         </button>
       </form>
     </main>
