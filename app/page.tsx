@@ -94,6 +94,7 @@ export default function Home() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <InputField
           name={FormFields.Postcode}
+          type='number'
           label='Postcode'
           error={formState[FormFields.Postcode].error}
           errorMsg={formState[FormFields.Postcode].errorMsg}
