@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
@@ -11,10 +11,11 @@
 }
 
 .form {
-  width: 400px;
+  width: 100%;
   border-radius: var(--border-radius);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 25px 20px;
+  margin-bottom: 20px;
 }
 
 .form > button[type='submit'] {
@@ -24,4 +25,10 @@
   padding: 10px;
   font-size: 0.95rem;
   font-weight: bold;
+}
+
+@media only screen and (min-width: 480px) {
+  .form {
+    width: 400px;
+  }
 }

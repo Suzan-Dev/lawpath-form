@@ -88,7 +88,7 @@ export default function Home() {
       <h2 className={styles.header}>Lawpath Form</h2>
       {isSubmitSuccess && (
         <div className='mb-15'>
-          <Alert variant='success'>The postcode, state and suburb input are valid</Alert>
+          <Alert variant='success'>The postcode, state and suburb input are valid.</Alert>
         </div>
       )}
       <form className={styles.form} onSubmit={handleSubmit}>
