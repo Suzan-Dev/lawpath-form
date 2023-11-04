@@ -135,7 +135,10 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <h2 className={styles.header}>Lawpath Form</h2>
+      <div className={styles.header}>
+        <h2>Lawpath Form</h2>
+        <p>Validate your address</p>
+      </div>
       {alertState.show && (
         <div className='mb-15 full-w'>
           <Alert variant={alertState.variant}>{alertState.message}</Alert>
