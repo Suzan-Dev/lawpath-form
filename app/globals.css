@@ -46,6 +46,10 @@ button:disabled:hover {
   margin-bottom: 15px;
 }
 
+.full-w {
+  width: 100%;
+}
+
 .btn-primary {
   color: white;
   transition: all 0.3s;

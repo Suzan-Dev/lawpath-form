@@ -16,6 +16,12 @@ export type Locality = {
   state: string;
 };
 
+export type SearchLocalitiesData = {
+  location: string;
+  postcode: number;
+  state: string;
+};
+
 export type ApolloServerCtx = {
   dataSources: {
     ausPostAPI: AusPostAPI;

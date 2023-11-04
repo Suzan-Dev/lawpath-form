@@ -3,7 +3,7 @@ import styles from './Alert.module.css';
 
 type AlertProps = {
   children: string;
-  variant: 'success' | 'error';
+  variant: string;
 };
 
 const Alert: FC<PropsWithChildren<AlertProps>> = ({ children, variant }) => {

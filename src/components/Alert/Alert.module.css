@@ -1,4 +1,5 @@
 .alertContainer {
+  text-align: center;
   padding: 15px;
   border-radius: var(--border-radius);
 }

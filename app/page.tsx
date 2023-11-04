@@ -4,10 +4,15 @@ import { FormEvent, useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import InputField from '@/src/components/InputField/InputField';
 import Alert from '@/src/components/Alert/Alert';
-import { FormStateType } from '@/src/types';
+import { FormStateType, SearchLocalitiesData } from '@/src/types';
 import { FormFields } from '@/src/constants/form';
 import styles from './page.module.css';
 
+const initialAlertStateValue = {
+  show: false,
+  variant: '',
+  message: '',
+};
 const initialFormStateValue = {
   value: '',
   error: false,
@@ -31,15 +36,21 @@ const query = gql`
 
 export default function Home() {
   const [formState, setFormState] = useState(initialFormState);
-  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+  const [alertState, setAlertState] = useState(initialAlertStateValue);
 
-  const [loadData, { loading, data }] = useLazyQuery(query, {
+  const [loadData, { loading }] = useLazyQuery(query, {
     fetchPolicy: 'network-only',
-    onCompleted: () => {
+    onCompleted: ({ search: data }) => {
+      const validation = handleAPIValidation(data);
+
       setFormState(initialFormState);
-      setIsSubmitSuccess(true);
+      setAlertState({
+        show: true,
+        variant: validation.type,
+        message: validation.message,
+      });
       setTimeout(() => {
-        setIsSubmitSuccess(false);
+        setAlertState(initialAlertStateValue);
       }, 3000);
     },
   });
@@ -56,7 +67,7 @@ export default function Home() {
     }));
   };
 
-  const handleValidation = () => {
+  const handleLocalValidation = () => {
     let isValid = true;
     const value = { error: true, errorMsg: 'This field is required' };
 
@@ -76,10 +87,42 @@ export default function Home() {
     return isValid;
   };
 
+  const handleAPIValidation = (data: SearchLocalitiesData[] | null) => {
+    const validation = { type: '', message: '' };
+
+    const postcode = +formState[FormFields.Postcode].value;
+    const suburb = formState[FormFields.Suburb].value.toLowerCase();
+    const state = formState[FormFields.State].value.toLowerCase();
+
+    if (!data || !data.length) {
+      validation.type = 'error';
+      validation.message = 'No fields match.';
+
+      return validation;
+    }
+
+    const isAllFieldsValid = data?.some((locality) => {
+      if (
+        locality.postcode === postcode &&
+        locality.location.toLowerCase() === suburb &&
+        locality.state.toLowerCase() === state
+      ) {
+        return true;
+      }
+    });
+
+    if (isAllFieldsValid) {
+      validation.type = 'success';
+      validation.message = 'The postcode, state and suburb input are valid.';
+    }
+
+    return validation;
+  };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const isValid = handleValidation();
+    const isValid = handleLocalValidation();
     if (!isValid) return;
 
     loadData({
@@ -93,9 +136,9 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h2 className={styles.header}>Lawpath Form</h2>
-      {isSubmitSuccess && (
-        <div className='mb-15'>
-          <Alert variant='success'>The postcode, state and suburb input are valid.</Alert>
+      {alertState.show && (
+        <div className='mb-15 full-w'>
+          <Alert variant={alertState.variant}>{alertState.message}</Alert>
         </div>
       )}
       <form className={styles.form} onSubmit={handleSubmit}>
