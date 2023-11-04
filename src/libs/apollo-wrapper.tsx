@@ -9,12 +9,11 @@ import {
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 
-// LATER: move value to env to support different environments
-const GRAPHQL_ENDPOINT = 'http://localhost:3000/api/graphql';
+const GRAPHQL_URI = `${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}/api/graphql`;
 
 const makeClient = () => {
   const httpLink = new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
+    uri: GRAPHQL_URI,
   });
 
   return new NextSSRApolloClient({
