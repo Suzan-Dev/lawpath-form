@@ -107,7 +107,7 @@ export default function Home() {
       const isAllFieldsValid = data?.some((locality) => {
         if (
           locality.postcode === postcode &&
-          locality.location.toLowerCase() === suburb.toLowerCase() &&
+          locality.location.toLowerCase().includes(suburb.toLowerCase()) &&
           locality.state.toLowerCase() === state.toLowerCase()
         ) {
           return true;
@@ -127,7 +127,7 @@ export default function Home() {
       // Check for suburb & state
       const isSuburbAndStateValid = data?.some((locality) => {
         if (
-          locality.location.toLowerCase() === suburb.toLowerCase() &&
+          locality.location.toLowerCase().includes(suburb.toLowerCase()) &&
           locality.state.toLowerCase() === state.toLowerCase()
         ) {
           return true;
@@ -143,7 +143,7 @@ export default function Home() {
     }
 
     const isSuburbAndPostcodeValid = data?.some((locality) => {
-      if (locality.postcode === postcode && locality.location.toLowerCase() === suburb.toLowerCase()) {
+      if (locality.postcode === postcode && locality.location.toLowerCase().includes(suburb.toLowerCase())) {
         return true;
       }
     });
