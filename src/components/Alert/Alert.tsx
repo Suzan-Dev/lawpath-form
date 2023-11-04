@@ -8,7 +8,7 @@ type AlertProps = {
 
 const Alert: FC<PropsWithChildren<AlertProps>> = ({ children, variant }) => {
   return (
-    <div className={`${styles.alertContainer} ${variant}`}>
+    <div className={`${styles.alertContainer} ${variant}`} data-testid='alert'>
       <p>{children}</p>
     </div>
   );
