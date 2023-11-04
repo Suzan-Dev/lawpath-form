@@ -83,11 +83,11 @@ export default function Home() {
     let isValid = true;
     const value = { error: true, errorMsg: 'This field is required' };
 
-    if (!formState[FormFields.Postcode].value) {
+    if (!formState[FormFields.Postcode].value.trim()) {
       handleFieldChange(FormFields.Postcode, value);
       isValid = false;
     }
-    if (!formState[FormFields.Suburb].value) {
+    if (!formState[FormFields.Suburb].value.trim()) {
       handleFieldChange(FormFields.Suburb, value);
       isValid = false;
     }
@@ -99,8 +99,8 @@ export default function Home() {
     const validation = { show: false, type: '', message: '' };
 
     const postcode = +formState[FormFields.Postcode].value;
-    const suburb = formState[FormFields.Suburb].value;
-    const state = formState[FormFields.State].value;
+    const suburb = formState[FormFields.Suburb].value.trim();
+    const state = formState[FormFields.State].value.trim();
 
     // Check if all fields matched or not
     if (postcode && suburb && state) {
@@ -177,8 +177,8 @@ export default function Home() {
 
     loadData({
       variables: {
-        state: formState[FormFields.State].value,
-        suburb: formState[FormFields.Suburb].value,
+        state: formState[FormFields.State].value.trim(),
+        suburb: formState[FormFields.Suburb].value.trim(),
       },
     });
   };
