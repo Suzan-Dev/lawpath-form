@@ -24,6 +24,7 @@ const initialFormState = {
   [FormFields.State]: initialFormStateValue,
 };
 
+// Can be moved to separate file
 const query = gql`
   query SearchLocalities($state: String!, $suburb: String!) {
     search(state: $state, suburb: $suburb) {
