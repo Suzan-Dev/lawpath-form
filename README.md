@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Lawpath Form
 
-## Getting Started
+## Things to consider 🤔
 
-First, run the development server:
+- **CSS Modules** for styling.
+- **Apollo Client & Server** as GraphQL libraries.
+- **Next.js API route** for creating GraphQL APIs.
+- The whole project is written using **Typescript**.
+- **Jest** & **React Testing Library** is used for testing.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Quick Start 🚀
+
+#### Prerequisites
+
+- Git
+- Node.js
+- Pnpm (use `npm i -g pnpm` to install)
+
+#### Clone the repo
+
+```js
+git clone **https or ssh url**
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Add ".env.local" file on root project
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```js
+AUSPOST_AUTH_KEY=**your auth key**
+NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Install dependencies
 
-## Learn More
+```js
+pnpm i
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### Run project in dev mode
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```js
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Optional - Run project in prod mode
 
-## Deploy on Vercel
+```js
+pnpm build
+pnpm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Optional - Run tests
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```js
+pnpm test
+```
+
+Check in browser on [http://localhost:3000/](http://localhost:3000/)
