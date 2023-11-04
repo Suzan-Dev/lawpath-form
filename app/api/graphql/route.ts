@@ -2,9 +2,10 @@ import { NextRequest } from 'next/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { ApolloServer } from '@apollo/server';
 import { gql } from 'graphql-tag';
-import { AusPostAPI } from '@/src/libs/api';
+import { AusPostAPI } from '@/src/libs/datasource-apis';
 import { ApolloServerCtx } from '@/src/types';
 
+// Move to new file if there are more resolvers
 const resolvers = {
   Query: {
     search: async (
@@ -33,6 +34,7 @@ const resolvers = {
   },
 };
 
+// Move to new file if there are more schemas
 const typeDefs = gql`
   type Query {
     search(state: String, suburb: String): [Locality]

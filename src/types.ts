@@ -1,4 +1,4 @@
-import { AusPostAPI } from './libs/api';
+import { AusPostAPI } from './libs/datasource-apis';
 
 export type FormStateType = {
   value?: string;
