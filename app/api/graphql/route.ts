@@ -17,9 +17,12 @@ const resolvers = {
       if (response.error) {
         // Handle the error case
         throw new Error(response.error.errorMessage);
-      } else if (response.localities && Array.isArray(response.localities.locality)) {
-        // Handle the case where you have a list of localities
-        return response.localities.locality;
+      } else if (response.localities) {
+        // Convert to array when only one locality is fetched
+        if (Array.isArray(response.localities.locality)) {
+          return response.localities.locality;
+        }
+        return [response.localities.locality];
       } else if (response.localities === '') {
         // Handle the case where localities is an empty string
         return [];
