@@ -102,26 +102,6 @@ export default function Home() {
     const suburb = formState[FormFields.Suburb].value.trim();
     const state = formState[FormFields.State].value.trim();
 
-    // Check if all fields matched or not
-    if (postcode && suburb && state) {
-      const isAllFieldsValid = data?.some((locality) => {
-        if (
-          locality.postcode === postcode &&
-          locality.location.toLowerCase().includes(suburb.toLowerCase()) &&
-          locality.state.toLowerCase() === state.toLowerCase()
-        ) {
-          return true;
-        }
-      });
-      if (isAllFieldsValid) {
-        validation.show = true;
-        validation.type = 'success';
-        validation.message = 'The postcode, state and suburb input are valid.';
-
-        return validation;
-      }
-    }
-
     // Check combination of form field values
     if (state) {
       // Check for suburb & state
@@ -142,13 +122,13 @@ export default function Home() {
       }
     }
 
+    // Check for suburb & postcode
     const isSuburbAndPostcodeValid = data?.some((locality) => {
       if (locality.postcode === postcode && locality.location.toLowerCase().includes(suburb.toLowerCase())) {
         return true;
       }
     });
     if (!isSuburbAndPostcodeValid) {
-      // Check for suburb & postcode
       handleFieldChange(FormFields.Postcode, {
         error: true,
         errorMsg: `The postcode ${postcode} does not match the suburb ${suburb}.`,
@@ -156,12 +136,21 @@ export default function Home() {
       return null;
     } else {
       // Ask to enter state to complete form submission
-      handleFieldChange(FormFields.State, {
-        error: true,
-        errorMsg: `The above fields are valid! Please input data into this field.`,
-      });
-      return null;
+      if (!state) {
+        handleFieldChange(FormFields.State, {
+          error: true,
+          errorMsg: `The above fields are valid! Please input data into this field.`,
+        });
+        return null;
+      }
     }
+
+    // If every field is valid
+    validation.show = true;
+    validation.type = 'success';
+    validation.message = 'The postcode, state and suburb input are valid.';
+
+    return validation;
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
