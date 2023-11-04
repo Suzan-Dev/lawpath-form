@@ -9,7 +9,8 @@ import {
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 
-const GRAPHQL_ENDPOINT = 'https://jsonplaceholder.ir/graphql';
+// LATER: move value to env to support different environments
+const GRAPHQL_ENDPOINT = 'http://localhost:3000/api/graphql';
 
 const makeClient = () => {
   const httpLink = new HttpLink({

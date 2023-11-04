@@ -20,11 +20,11 @@ const initialFormState = {
 };
 
 const query = gql`
-  query {
-    users {
-      id
-      name
-      email
+  query SearchLocalities($state: String!, $suburb: String!) {
+    search(state: $state, suburb: $suburb) {
+      state
+      postcode
+      location
     }
   }
 `;
@@ -34,9 +34,13 @@ export default function Home() {
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   const [loadData, { loading, data }] = useLazyQuery(query, {
+    fetchPolicy: 'network-only',
     onCompleted: () => {
       setFormState(initialFormState);
       setIsSubmitSuccess(true);
+      setTimeout(() => {
+        setIsSubmitSuccess(false);
+      }, 3000);
     },
   });
 
@@ -78,9 +82,12 @@ export default function Home() {
     const isValid = handleValidation();
     if (!isValid) return;
 
-    // TODO: hit API
-    console.log(formState);
-    loadData();
+    loadData({
+      variables: {
+        state: formState[FormFields.State].value,
+        suburb: formState[FormFields.Suburb].value,
+      },
+    });
   };
 
   return (
