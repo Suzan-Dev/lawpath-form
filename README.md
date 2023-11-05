@@ -2,6 +2,7 @@
 
 ## Things to consider 🤔
 
+- No **Form/UI** libraries used.
 - **CSS Modules** for styling.
 - **Apollo Client & Server** as GraphQL libraries.
 - **Next.js API route** for creating GraphQL APIs.
